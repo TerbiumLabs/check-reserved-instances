@@ -12,3 +12,4 @@ test_results.xml
 .cache
 .coverage
 *.egg
+.idea
