@@ -48,6 +48,8 @@ def calculate_ec2_ris(account):
     aws_access_key_id = account['aws_access_key_id']
     aws_secret_access_key = account['aws_secret_access_key']
     region = account['region']
+    client = boto3.client('ec2')
+    ec2 = boto3.resource("ec2", region_name=region)
 
     ec2_conn = boto.ec2.connect_to_region(
         region_name=region, aws_access_key_id=aws_access_key_id,
@@ -62,8 +64,8 @@ def calculate_ec2_ris(account):
             # Ignore non-running and spot instances
             if (instance.state == 'running' and not
                     instance.spot_instance_request_id):
-                az = instance.placement
                 instance_type = instance.instance_type
+		az = region
                 ec2_running_instances[(
                     instance_type, az)] = ec2_running_instances.get(
                     (instance_type, az), 0) + 1
@@ -76,21 +78,20 @@ def calculate_ec2_ris(account):
 
     # Loop through active EC2 RIs and record their AZ and type.
     ec2_reserved_instances = {}
-    for reserved_instance in ec2_conn.get_all_reserved_instances():
-        if reserved_instance.state == 'active':
-            az = reserved_instance.availability_zone
-            instance_type = reserved_instance.instance_type
+    for reserved_instance in client.describe_reserved_instances()["ReservedInstances"]:
+        if reserved_instance["State"] == 'active':
+            instance_type = reserved_instance["InstanceType"]
+            az = region
             ec2_reserved_instances[(
                 instance_type, az)] = ec2_reserved_instances.get(
-                (instance_type, az), 0) + reserved_instance.instance_count
+                (instance_type, az), 0) + reserved_instance["InstanceCount"]
 
             reserve_expiry[(instance_type, az)].append(calc_expiry_time(
-                expiry=reserved_instance.end))
+                expiry=str(reserved_instance["End"])))
 
     results = report_diffs(ec2_running_instances, ec2_reserved_instances,
                            'EC2')
     return results
-
 
 def calculate_elc_ris(account):
     """Calculate the running/reserved instances in ElastiCache.
