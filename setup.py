@@ -27,13 +27,11 @@ def setup():
         include_package_data=True,
         zip_safe=False,
         install_requires=[
-            'boto',
             'boto3',
             'click',
             'configparser',
             'Jinja2',
-            'MarkupSafe',
-            'python-dateutil'
+            'MarkupSafe'
         ],
         tests_require=[
             'mock',

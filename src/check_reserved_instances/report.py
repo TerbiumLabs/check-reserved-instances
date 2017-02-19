@@ -4,8 +4,11 @@ from __future__ import print_function
 
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+
 import smtplib
+
 import jinja2
+
 import pkg_resources
 
 from check_reserved_instances.calculate import instance_ids, reserve_expiry

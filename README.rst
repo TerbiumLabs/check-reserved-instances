@@ -22,11 +22,13 @@ availability zone, instance type, and quantity. Correlating the
 reservations you currently have active with your running instances is a
 manual, time-consuming, and error prone process.
 
-This quick little Python script uses boto to inspect your reserved
+This quick little Python script uses boto3 to inspect your reserved
 instances and running instances to determine if you currently have any
 reserved instances which are not being used. Additionally, it will give
 you a list of non-reserved instances which could benefit from additional
 reserved instance allocations. The report may also be sent via email.
+
+`Regional Benefit Reserved Instances`_ are also supported!
 
 Installation
 ------------
@@ -124,6 +126,7 @@ For one-time use, execute the script:
 
     Below is the report on EC2 reserved instances:
 
+    UNUSED RESERVATION! (1) c4.large    All     Expires in [42] days.
 
     UNUSED RESERVATION! (1) m1.small    us-east-1b    Expires in [201] days.
 
@@ -146,7 +149,7 @@ For one-time use, execute the script:
     Not sending email for this report
 
 In this example, you can easily see that an m2.2xlarge was spun up in
-the wrong AZ (us-east-1b vs. us-east-1a), as well as an m1.small. The
+the wrong AZ (us-east-1b vs. us-east-1a). A c4.large regional benefit reserved instance is also unutilized. The
 “NOT RESERVED!” section shows that you could benefit from reserving:
 
 -  \(1) t1.micro
@@ -204,3 +207,4 @@ tox.ini).
 
 .. _epheph/ec2-check-reserved-instances: https://github.com/epheph/ec2-check-reserved-instances
 .. _pull request #5 by DavidGoodwin: https://github.com/epheph/ec2-check-reserved-instances/pull/5
+.. _Regional Benefit Reserved Instances: https://aws.amazon.com/blogs/aws/ec2-reserved-instance-update-convertible-ris-and-regional-benefit/
