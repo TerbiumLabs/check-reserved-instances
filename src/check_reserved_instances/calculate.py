@@ -83,7 +83,7 @@ def calculate_ec2_ris(account):
         try:
             reserved_instance['Scope']
         except KeyError:
-            print "Scope is not defined, skipping..."
+            print("Scope is not defined, skipping...")
         else:
             if reserved_instance['Scope'] == 'Availability Zone':
                 az = reserved_instance['AvailabilityZone']
