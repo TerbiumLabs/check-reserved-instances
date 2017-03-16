@@ -80,11 +80,15 @@ def calculate_ec2_ris(account):
             Filters=[{'Name': 'state', 'Values': ['active']}])[
             'ReservedInstances']:
         # Detect if an EC2 RI is a regional benefit RI or not
-        if 'Scope' in reserved_instance: 
+        try:
+            reserved_instance['Scope']
+        except KeyError:
+            print('\nScope is not defined, skipping...')
+        else:
             if reserved_instance['Scope'] == 'Availability Zone':
                 az = reserved_instance['AvailabilityZone']
-        else:
-            az = 'All'
+            else:
+                az = 'All'
 
         instance_type = reserved_instance['InstanceType']
         ec2_reserved_instances[(
