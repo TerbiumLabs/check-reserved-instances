@@ -68,5 +68,4 @@ def cli(config):
             results[name].append(calculate_rds_ris(account=aws_account))
         if aws_account['elasticache'] is True:
             results[name].append(calculate_elc_ris(account=aws_account))
-    print report_results
     report_results(current_config, results)
