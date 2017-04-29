@@ -2,11 +2,11 @@
 import io
 import setuptools
 
-
 def setup():
     """Setup function for PyPi."""
     with io.open('README.rst', 'r', encoding='utf-8') as fp:
         readme = fp.read()
+
     setuptools.setup(
         name='check-reserved-instances',
         license='BSD',
