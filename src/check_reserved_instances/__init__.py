@@ -60,11 +60,12 @@ def cli(config):
     for aws_account in aws_accounts:
         name = aws_account['name']
         results[name] = []
-        results[name].append(calculate_ec2_ris(account=aws_account))
+        ec2 = calculate_ec2_ris(account=aws_account)
+        results[name].append(ec2[0])
+        results[name].append(ec2[1])
 
         if aws_account['rds'] is True:
             results[name].append(calculate_rds_ris(account=aws_account))
         if aws_account['elasticache'] is True:
             results[name].append(calculate_elc_ris(account=aws_account))
-
     report_results(current_config, results)
