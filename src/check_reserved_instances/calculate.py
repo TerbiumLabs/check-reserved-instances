@@ -94,6 +94,16 @@ def calculate_ec2_ris(account):
                                 instance['InstanceId'] if not instance_name
                                 else instance_name)
 
+    account_is_vpc_only = False
+    account_attributes = ec2_conn.describe_account_attributes()
+    for account_attribute in account_attributes['AccountAttributes']:
+        if account_attribute['AttributeName'] == 'supported-platforms':
+            values = map(lambda v: v['AttributeValue'],
+                         account_attribute['AttributeValues'])
+            if values == ['VPC']:
+                account_is_vpc_only = True
+            break
+
     # Loop through active EC2 RIs and record their AZ and type.
     ec2_cls_reserved_instances = {}
     ec2_vpc_reserved_instances = {}
@@ -107,8 +117,9 @@ def calculate_ec2_ris(account):
             az = 'All'
 
         instance_type = reserved_instance['InstanceType']
+        product_description = reserved_instance.get('ProductDescription')
         # check if VPC/Classic reserved instance
-        if 'VPC' in reserved_instance.get('ProductDescription'):
+        if account_is_vpc_only or 'VPC' in product_description:
             ec2_vpc_reserved_instances[(
                 instance_type, az)] = ec2_vpc_reserved_instances.get(
                 (instance_type, az), 0) + reserved_instance['InstanceCount']
