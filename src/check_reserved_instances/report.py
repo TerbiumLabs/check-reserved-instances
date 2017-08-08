@@ -65,7 +65,7 @@ def report_results(config, results):
             reserve_expiry=reserve_expiry)
 
         email_config = config['Email']
-        smtp_recipients = email_config['smtp_recipients']
+        smtp_recipients = email_config['smtp_recipients'].split(",")
         smtp_sendas = email_config['smtp_sendas']
         smtp_host = email_config['smtp_host']
         smtp_port = int(email_config['smtp_port'])
@@ -76,7 +76,7 @@ def report_results(config, results):
         print('\nSending emails to {}'.format(smtp_recipients))
         mailmsg = MIMEMultipart('alternative')
         mailmsg['Subject'] = 'Reserved Instance Report'
-        mailmsg['To'] = smtp_recipients
+        mailmsg['To'] = email_config['smtp_recipients']
         mailmsg['From'] = smtp_sendas
         email_text = MIMEText(report_text, 'plain')
         email_html = MIMEText(report_html, 'html')
