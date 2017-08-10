@@ -88,7 +88,7 @@ def report_results(config, results):
             smtp.starttls()
         if smtp_user:
             smtp.login(smtp_user, smtp_password)
-        smtp.sendmail(smtp_sendas, smtp_recipients, mailmsg)
+        smtp.sendmail(smtp_sendas, smtp_recipients.split(","), mailmsg)
         smtp.quit()
     else:
         print('\nNot sending email for this report')
