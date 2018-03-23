@@ -127,5 +127,5 @@ def cli(config):
     url = "http://{0}:9200/{1}/stat/".format(es_node, es_index)
     for instance in stats['instances']:
         stat_put = requests.post(url, json=instance)
-        if stat_put.status_code != 200:
+        if stat_put.status_code != 201:
             print(stat_put.json())
