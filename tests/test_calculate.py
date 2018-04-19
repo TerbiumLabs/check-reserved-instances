@@ -273,12 +273,14 @@ def get_elc_instances():
                 'Engine': 'redis',
                 'CacheNodeType': 'cache.t2.small',
                 'CacheClusterId': 'test1',
+                'NumCacheNodes': 2,
             },
             {
                 'CacheClusterStatus': 'stopped',
                 'Engine': 'redis',
                 'CacheNodeType': 'cache.m3.medium',
                 'CacheClusterId': 'test2',
+                'NumCacheNodes': 1,
             }
         ]
     }

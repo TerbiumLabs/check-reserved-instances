@@ -185,7 +185,7 @@ def calculate_elc_ris(session, results):
                 results['elc_running_instances'][(
                     instance_type, engine)] = results[
                     'elc_running_instances'].get(
-                        (instance_type, engine), 0) + 1
+                        (instance_type, engine), 0) + instance['NumCacheNodes']
                 instance_ids[(instance_type, engine)].append(
                     instance['CacheClusterId'])
 
