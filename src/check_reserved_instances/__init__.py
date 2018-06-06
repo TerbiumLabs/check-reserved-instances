@@ -4,6 +4,8 @@ from __future__ import absolute_import
 
 import click
 import pkg_resources
+import requests
+import datetime
 
 from check_reserved_instances.aws import (
     calculate_ec2_ris, calculate_elc_ris, calculate_rds_ris,
@@ -94,3 +96,36 @@ def cli(config):
         results['rds_running_instances'],
         results['rds_reserved_instances'])
     report_results(current_config, report)
+
+    stat_map = {'EC2 Classic': 'ec2_classic', 'EC2 VPC': 'ec2_vpc', 'ElastiCache': 'elc', 'RDS': 'rds'}
+
+    timestamp = datetime.datetime.utcnow().isoformat()
+    stats = {"instances": [], "timestamp": timestamp}
+
+    for k,v in stat_map.items():
+        diffs = report_diffs(
+            results["{}_running_instances".format(v)],
+            results["{}_reserved_instances".format(v)])
+        stats['instances'].append({
+            'timestamp': timestamp,
+            'service': "running_{}".format(v),
+            'qty': diffs['qty_running_instances']
+        })
+        stats['instances'].append({
+            'timestamp': timestamp,
+            'service': "reserved_{}".format(v),
+            'qty': diffs['qty_reserved_instances']
+        })
+        stats['instances'].append({
+            'timestamp': timestamp,
+            'service': "unreserved_{}".format(v),
+            'qty': diffs['qty_unreserved_instances']
+        })
+
+    es_node = 'esdata01.use1.tools.ddc.io'
+    es_index = 'aws_reservation_stats'
+    url = "http://{0}:9200/{1}/stat/".format(es_node, es_index)
+    for instance in stats['instances']:
+        stat_put = requests.post(url, json=instance)
+        if stat_put.status_code != 201:
+            print(stat_put.json())
