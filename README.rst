@@ -64,7 +64,10 @@ The following configuration options are supported:
 -  **aws\_secret\_access\_key** (Optional str): The AWS IAM secret key
    for a specific user.
 -  **aws\_role\_arn** (Optional str): The AWS IAM role to assume to authenticate
-   with if you wish to use IAM roles to authenticate across accounts. See `AWS Documentation`_ for more information.
+   with if you wish to use IAM roles to authenticate across accounts.
+   See `AWS Documentation`_ for more information.
+-  **aws\_profile** (Optional str): The name of the `AWS CLI profile`_ to use to
+   authenticate. Requires profiles to be set up via ``aws configure``.
 -  **region** (Optional str): The AWS region to query for the account.
    Defaults to us-east-1. If multiple regions are desired, another
    ``[AWS <name here>]`` section is required.
@@ -207,3 +210,4 @@ tox.ini).
 .. _pull request #5 by DavidGoodwin: https://github.com/epheph/ec2-check-reserved-instances/pull/5
 .. _Regional Benefit Reserved Instances: https://aws.amazon.com/blogs/aws/ec2-reserved-instance-update-convertible-ris-and-regional-benefit/
 .. _AWS Documentation: http://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html
+.. _AWS CLI profile: https://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html

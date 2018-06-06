@@ -49,6 +49,7 @@ def parse_aws_config(section, config_parser):
         ConfigLine('aws_access_key_id', False, None),
         ConfigLine('aws_secret_access_key', False, None),
         ConfigLine('aws_role_arn', False, None),
+        ConfigLine('aws_profile', False, None),
         ConfigLine('region', False, 'us-east-1'),
         ConfigLine('rds', False, True, bool),
         ConfigLine('elasticache', False, True, bool),

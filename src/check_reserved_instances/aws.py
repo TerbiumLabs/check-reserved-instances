@@ -32,6 +32,7 @@ def create_boto_session(account):
     aws_secret_access_key = account['aws_secret_access_key']
     aws_role_arn = account['aws_role_arn']
     region = account['region']
+    aws_profile = account['aws_profile']
 
     if aws_role_arn:
         sts_client = boto3.client('sts', region_name=region)
@@ -45,12 +46,14 @@ def create_boto_session(account):
             aws_secret_access_key=aws_secret_access_key,
             aws_session_token=aws_session_token,
             region_name=region,
+            profile_name=aws_profile,
         )
     else:
         session = boto3.Session(
             aws_access_key_id=aws_access_key_id,
             aws_secret_access_key=aws_secret_access_key,
             region_name=region,
+            profile_name=aws_profile,
         )
 
     return session
