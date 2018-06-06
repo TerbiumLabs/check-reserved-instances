@@ -122,7 +122,7 @@ def cli(config):
             'qty': diffs['qty_unreserved_instances']
         })
 
-    es_node = 'esmaster01.use1.dev.ddc.io'
+    es_node = 'esdata01.use1.tools.ddc.io'
     es_index = 'aws_reservation_stats'
     url = "http://{0}:9200/{1}/stat/".format(es_node, es_index)
     for instance in stats['instances']:
