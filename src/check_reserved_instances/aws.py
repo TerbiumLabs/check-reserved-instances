@@ -28,8 +28,6 @@ def create_boto_session(account):
         The authenticated boto3 session.
 
     """
-    aws_access_key_id = account['aws_access_key_id']
-    aws_secret_access_key = account['aws_secret_access_key']
     aws_role_arn = account['aws_role_arn']
     region = account['region']
     aws_profile = account['aws_profile']
@@ -50,8 +48,6 @@ def create_boto_session(account):
         )
     else:
         session = boto3.Session(
-            aws_access_key_id=aws_access_key_id,
-            aws_secret_access_key=aws_secret_access_key,
             region_name=region,
             profile_name=aws_profile,
         )
