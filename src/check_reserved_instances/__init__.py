@@ -25,8 +25,6 @@ current_config = {}
 #   'Accounts': [
 #       {
 #           'name': 'Account 1',
-#           'aws_access_key_id': '',
-#           'aws_secret_access_key': '',
 #           'aws_role_arn': '',
 #           'region': 'us-east-1',
 #           'rds': True,
