@@ -1,8 +1,10 @@
 [AWS account1]
+min_ri_days = 7
 elasticache = False
 rds = False
 
 [AWS account2]
+min_ri_days = 7
 elasticache = False
 rds = False
 
