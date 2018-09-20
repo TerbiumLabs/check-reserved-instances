@@ -23,14 +23,14 @@ text_template = """
 Below is the report on {{ service }} reserved instances:
     {%- if report[service]['unused_reservations'] -%}
       {%- for type, count in report[service]['unused_reservations'].items() %}
-UNUSED RESERVATION!\t({{ count }})\t{{ type[0] }}\t{{ type[1] }}{%- if reserve_expiry %}\tExpires in {{ reserve_expiry[type]|string }} days.{%- endif %}
+UNUSED RESERVATION!\t{{ count }}\t{{ type[0] }}\t{{ type[1] }}{%- if reserve_expiry %}\tExpires in {{ reserve_expiry[type]|string }} days.{%- endif %}
       {%- endfor %}
     {%- else %}
 You have no unused {{ service }} reservations.
     {%- endif %}
     {%- if report[service]['unreserved_instances'] %}
       {%- for type, count in report[service]['unreserved_instances'].items() %}
-NOT RESERVED!\t({{ count }})\t{{ type[0] }}\t{{ type[1] }}{% if instance_ids %}\t{{ ", ".join(instance_ids[type]) }}{% endif %}
+NOT RESERVED!\t{{ count }}\t{{ type[0] }}\t{{ type[1] }}{% if instance_ids %}\t{{ ", ".join(instance_ids[type]) }}{% endif %}
       {%- endfor %}
     {%- else %}
 You have no unreserved {{ service }} instances.
