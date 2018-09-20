@@ -71,7 +71,8 @@ def cli(config):
 
     for aws_account in aws_accounts:
         session = create_boto_session(aws_account)
-        results = calculate_ec2_ris(session, results)
+        min_ri_days = int(aws_account.get('min_ri_days', '30'))
+        results = calculate_ec2_ris(session, results, min_ri_days=min_ri_days)
 
         if aws_account['rds'] is True:
             results = calculate_rds_ris(session, results)

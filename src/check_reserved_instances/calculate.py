@@ -37,6 +37,7 @@ def report_diffs(running_instances, reserved_instances):
         each.
 
     """
+
     instance_diff = {}
     regional_benefit_ris = {}
     # loop through the reserved instances

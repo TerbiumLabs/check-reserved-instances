@@ -16,6 +16,26 @@ instance_ids = defaultdict(list)
 # reserve expiration time to report with unused reservations
 reserve_expiry = defaultdict(list)
 
+# normalization factor
+# https://aws.amazon.com/blogs/aws/new-instance-size-flexibility-for-ec2-reserved-instances/
+NORMALIZATION_FACTOR = {
+    'nano': 0.25,
+    'micro': 0.5,
+    'small': 1,
+    'medium': 2,
+    'large': 4,
+    'xlarge': 8,
+    '2xlarge': 16,
+    '4xlarge': 32,
+    '8xlarge': 64,
+    '9xlarge': 72,
+    '10xlarge': 80,
+    '12xlarge': 96,
+    '16xlarge': 128,
+    '18xlarge': 144,
+    '24xlarge': 192,
+    '32xlarge': 256,
+}
 
 def create_boto_session(account):
     """Set up the boto3 session to connect to AWS.
@@ -55,7 +75,7 @@ def create_boto_session(account):
     return session
 
 
-def calculate_ec2_ris(session, results):
+def calculate_ec2_ris(session, results, min_ri_days=30):
     """Calculate the running/reserved instances in EC2.
 
     This function is unique as it performs both checks for both VPC-launched
@@ -138,6 +158,21 @@ def calculate_ec2_ris(session, results):
         else:
             az = 'All'
 
+        ri_expiry = calc_expiry_time(expiry=reserved_instance['End'])
+        if int(ri_expiry) < int(min_ri_days):
+            print "%s\t%s\tExpires in [%s] days\tDISCARD" % (
+                reserved_instance['InstanceType'],
+                reserved_instance['InstanceCount'],
+                ri_expiry
+            )
+            continue
+        else:
+            print "%s\t%s\tExpires in [%s] days\tKEEP" % (
+                reserved_instance['InstanceType'],
+                reserved_instance['InstanceCount'],
+                ri_expiry
+            )
+
         instance_type = reserved_instance['InstanceType']
         # check if VPC/Classic reserved instance
         if account_is_vpc_only or 'VPC' in reserved_instance.get(
@@ -152,8 +187,7 @@ def calculate_ec2_ris(session, results):
                 'ec2_classic_reserved_instances'].get(
                 (instance_type, az), 0) + reserved_instance['InstanceCount']
 
-        reserve_expiry[(instance_type, az)].append(calc_expiry_time(
-            expiry=reserved_instance['End']))
+        reserve_expiry[(instance_type, az)].append(ri_expiry)
 
     return results
 
