@@ -160,14 +160,14 @@ def calculate_ec2_ris(session, results, min_ri_days=30):
 
         ri_expiry = calc_expiry_time(expiry=reserved_instance['End'])
         if int(ri_expiry) < int(min_ri_days):
-            print "RI [%s] has %d instance(s) and is expiring in %d days... discarding it" % (
+            print "[%s]\t%d\tExpires in [%d] days\tDISCARD" % (
                 reserved_instance['InstanceType'],
                 reserved_instance['InstanceCount'],
                 ri_expiry
             )
             continue
         else:
-            print "RI [%s] has %d instance(s) and is expiring in %d days" % (
+            print "[%s]\t%d\tExpires in [%d] days\tKEEP" % (
                 reserved_instance['InstanceType'],
                 reserved_instance['InstanceCount'],
                 ri_expiry

@@ -38,7 +38,6 @@ def report_diffs(running_instances, reserved_instances):
 
     """
 
-    print "reserved_instances: %s\n" % reserved_instances
     instance_diff = {}
     regional_benefit_ris = {}
     # loop through the reserved instances
@@ -59,7 +58,6 @@ def report_diffs(running_instances, reserved_instances):
                 placement_key]
 
     # loop through regional benefit RI's
-    print "regional_benefit_ris: %s" % regional_benefit_ris
     for ri in regional_benefit_ris:
         # loop through the entire instace diff
         for placement_key in instance_diff:
