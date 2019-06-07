@@ -14,5 +14,17 @@ run:
 install:
 	python setup.py install
 
+test:
+	python setup.py test
+
+pip_install:
+	pip install -r requirements.txt
+
+pip_install_test:
+	pip install -r requirements_test.txt
+
+pip_install_all: pip_install pip_install_test
+	@echo "Done"
+
 %:
 	@:
