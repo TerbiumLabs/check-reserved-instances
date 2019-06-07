@@ -15,13 +15,13 @@ install:
 	python setup.py install
 
 test:
-	python setup.py test
+	tox
 
 pip_install:
 	pip install -r requirements.txt
 
 pip_install_test:
-	pip install -r requirements_test.txt
+	pip install -r test_requirements.txt
 
 pip_install_all: pip_install pip_install_test
 	@echo "Done"
