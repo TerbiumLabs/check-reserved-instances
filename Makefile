@@ -8,6 +8,9 @@ default:
 help:
 	@echo ""
 
+make bootstrap:
+	pip install 'awscli==1.14.61'
+
 run:
 	check-reserved-instances --config config.ini
 
