@@ -6,6 +6,7 @@ from collections import defaultdict
 import datetime
 
 import boto3
+import sys
 
 from check_reserved_instances.calculate import calc_expiry_time
 
@@ -106,7 +107,7 @@ def calculate_ec2_ris(session, results, min_ri_days=30):
     # Loop through running EC2 instances and record their AZ, type, and
     # Instance ID or Name Tag if it exists.
     for page in page_iterator:
-        for reservation in page['Reservations']:
+        for reservation in page.get('Reservations',[]):
             for instance in reservation['Instances']:
                 # Ignore spot instances
                 if 'SpotInstanceRequestId' not in instance:
