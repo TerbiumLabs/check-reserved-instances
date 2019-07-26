@@ -298,5 +298,11 @@ def calculate_rds_ris(session, results):
 
                 reserve_expiry[(instance_type, az)].append(calc_expiry_time(
                     expiry=expiry_time))
+                
+                print "%s\t%s\tExpires in [%s]\tKEEP" % (
+                    reserved_instance['DBInstanceClass'],
+                    reserved_instance['DBInstanceCount'],
+                    expiry_time
+                )
 
     return results

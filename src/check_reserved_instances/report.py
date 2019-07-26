@@ -35,6 +35,13 @@ NOT RESERVED!\t{{ count }}\t{{ type[0] }}\t{{ type[1] }}{% if instance_ids %}\t{
     {%- else %}
 You have no unreserved {{ service }} instances.
     {%- endif %}
+    {%- if report[service]['reserved_instances'] %}
+      {%- for type, count in report[service]['reserved_instances'].items() %}
+RESERVED!\t{{ count }}\t{{ type[0] }}\t{{ type[1] }}{% if instance_ids %}\t{{ ", ".join(instance_ids[type]) }}{% endif %}
+      {%- endfor %}
+    {%- else %}
+You have no unreserved {{ service }} instances.
+    {%- endif %}
 ({{ report[service]['qty_running_instances'] }}) running on-demand {{ service }} instances
 ({{ report[service]['qty_reserved_instances'] }}) {{ service }} reservations
 ({{ report[service]['qty_unreserved_instances'] }}) Unreserved {{ service }} reservations

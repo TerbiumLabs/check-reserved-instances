@@ -81,6 +81,8 @@ def report_diffs(running_instances, reserved_instances):
     unreserved_instances = {key: -value for key, value in
                             instance_diff.items() if value < 0}
 
+    # TO DO: tidy up reserved instances
+
     qty_running_instances = 0
     for instance_count in running_instances.values():
         qty_running_instances += instance_count
@@ -95,6 +97,7 @@ def report_diffs(running_instances, reserved_instances):
     return {
         'unused_reservations': unused_reservations,
         'unreserved_instances': unreserved_instances,
+        'reserved_instances': reserved_instances,
         'qty_running_instances': qty_running_instances,
         'qty_reserved_instances': qty_reserved_instances,
         'qty_unreserved_instances': qty_unreserved_instances,
