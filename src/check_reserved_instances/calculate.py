@@ -41,7 +41,9 @@ def report_diffs(running_instances, reserved_instances):
     instance_diff = {}
     regional_benefit_ris = {}
     # loop through the reserved instances
+    print("reserved")
     for placement_key in reserved_instances:
+        print placement_key
         # if the AZ from an RI is 'All' (regional benefit RI)
         if placement_key[1] == 'All':
             # put into another dict for these RIs for processing later
@@ -52,10 +54,14 @@ def report_diffs(running_instances, reserved_instances):
                 placement_key] - running_instances.get(placement_key, 0)
 
     # add unreserved instances to instance_diff
+    print "running"
     for placement_key in running_instances:
+        print placement_key
         if placement_key not in reserved_instances:
             instance_diff[placement_key] = -running_instances[
                 placement_key]
+
+    print "running_instances: %s" % running_instances
 
     # loop through regional benefit RI's
     for ri in regional_benefit_ris:
