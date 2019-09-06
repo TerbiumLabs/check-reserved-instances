@@ -16,27 +16,6 @@ instance_ids = defaultdict(list)
 # reserve expiration time to report with unused reservations
 reserve_expiry = defaultdict(list)
 
-# normalization factor
-# https://aws.amazon.com/blogs/aws/new-instance-size-flexibility-for-ec2-reserved-instances/
-NORMALIZATION_FACTOR = {
-    'nano': 0.25,
-    'micro': 0.5,
-    'small': 1,
-    'medium': 2,
-    'large': 4,
-    'xlarge': 8,
-    '2xlarge': 16,
-    '4xlarge': 32,
-    '8xlarge': 64,
-    '9xlarge': 72,
-    '10xlarge': 80,
-    '12xlarge': 96,
-    '16xlarge': 128,
-    '18xlarge': 144,
-    '24xlarge': 192,
-    '32xlarge': 256,
-}
-
 def create_boto_session(account):
     """Set up the boto3 session to connect to AWS.
 
