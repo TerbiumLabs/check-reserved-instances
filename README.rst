@@ -33,11 +33,11 @@ reserved instance allocations. The report may also be sent via email.
 Installation
 ------------
 
-Install the package using pip:
+Install the from this repo using pip (run inside your cloned repo directory):
 
 ::
 
-    $ pip install check_reserved_instances
+    $ pip install .
 
 Configuration
 -------------
