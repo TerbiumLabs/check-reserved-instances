@@ -249,10 +249,11 @@ def calculate_rds_ris(session, results):
                 engine = 'aurora-mysql'
             else:
                 engine = instance['Engine']
+            engineaz = engine + "-" + az
             results['rds_running_instances'][(
-                instance_type, engine, az)] = results['rds_running_instances'].get(
-                    (instance_type, engine, az), 0) + 1
-            instance_ids[(instance_type, engine, az)].append(
+                instance_type, engineaz)] = results['rds_running_instances'].get(
+                    (instance_type, engineaz), 0) + 1
+            instance_ids[(instance_type, engineaz)].append(
                 instance['DBInstanceIdentifier'])
 
     paginator = rds_conn.get_paginator('describe_reserved_db_instances')
@@ -267,10 +268,11 @@ def calculate_rds_ris(session, results):
                     az = "no-multi-az"
                 instance_type = reserved_instance['DBInstanceClass']
                 engine = reserved_instance['ProductDescription']
+                engineaz = engine + "-" + az
                 results['rds_reserved_instances'][(
-                    instance_type, engine, az)] = results[
+                    instance_type, engineaz)] = results[
                     'rds_reserved_instances'].get(
-                    (instance_type, engine, az), 0) + reserved_instance[
+                    (instance_type, engineaz), 0) + reserved_instance[
                     'DBInstanceCount']
 
                 # No end datetime is returned, so calculate from 'StartTime'
@@ -279,7 +281,7 @@ def calculate_rds_ris(session, results):
                     'StartTime'] + datetime.timedelta(
                         seconds=reserved_instance['Duration'])
 
-                reserve_expiry[(instance_type, engine, az)].append(calc_expiry_time(
+                reserve_expiry[(instance_type, engineaz)].append(calc_expiry_time(
                     expiry=expiry_time))
 
     return results
