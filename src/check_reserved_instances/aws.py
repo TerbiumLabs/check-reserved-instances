@@ -266,6 +266,7 @@ def calculate_rds_ris(session, results):
                 else:
                     az = "no-multi-az"
                 instance_type = reserved_instance['DBInstanceClass']
+                engine = reserved_instance['ProductDescription']
                 results['rds_reserved_instances'][(
                     instance_type, engine, az)] = results[
                     'rds_reserved_instances'].get(
